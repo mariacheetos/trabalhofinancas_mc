@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle pessoal de finanças</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>Cadastro Financeiro</h1>
+    <form id="formsalario">
+        <label for="salario">Salário: </label>
+        <input type="number" id="salario" required>
+        <button type="submit">Salvar Salário</button>
+    </form>
+    <form id="formdespesa">
+        <label for="nome">Nome da Despesa: </label>
+        <input type="text" id="nome" required>
+        <label for="data">Data: </label>
+        <input type="date" id="data" required>
+        <label for="valor">Valor: </label>
+        <input type="number" id="valor" required>
+        <button type="submit">Cadastrar Despesa</button>
+    </form>
+    <button id="limpar">Limpar Tudo</button>
+    <h2>Listagem Financeira</h2>
+    <ul id="output"></ul>
+    <script type="text/javascript" src="js/financas.js"></script>
+</body>
+
+</html>
