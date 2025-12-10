@@ -57,6 +57,21 @@ function remover() {
     exibirResumo()
     alert("Todas as despesas foram removidas!")
 }
+function removerUltima() {
+    var lista = JSON.parse(localStorage.getItem("despesas")) || []
+
+    if (lista.length == 0) {
+        alert("Não há despesas para remover!")
+        return
+    }
+
+    lista.pop()
+
+    localStorage.setItem("despesas", JSON.stringify(lista))
+    mostrarDespesas()
+    exibirResumo()
+    alert("Última despesa removida!")
+}
 function mostrarDespesas() {
     var lista = JSON.parse(localStorage.getItem("despesas")) || []
     var ul = document.getElementById("mostraLista")
