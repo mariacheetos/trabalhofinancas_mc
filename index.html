@@ -1,33 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en,pt">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controle pessoal de finanças</title>
+    <title>Controle Pessoal</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <h1>Cadastro Financeiro</h1>
-    <form id="formsalario">
-        <label for="salario">Salário: </label>
-        <input type="number" id="salario" required>
-        <button type="submit">Salvar Salário</button>
-    </form>
-    <form id="formdespesa">
-        <label for="nome">Nome da Despesa: </label>
-        <input type="text" id="nome" required>
-        <label for="data">Data: </label>
-        <input type="date" id="data" required>
-        <label for="valor">Valor: </label>
-        <input type="number" id="valor" required>
-        <button type="submit">Cadastrar Despesa</button>
-    </form>
-    <button id="limpar">Limpar Tudo</button>
-    <h2>Listagem Financeira</h2>
-    <ul id="output"></ul>
-    <script type="text/javascript" src="js/financas.js"></script>
+    <h1>CONTROLE PESSOAL DE FINANÇAS</h1>
+    <section class="box">
+        <h3>Cadastro do Salário</h3>
+        <input type="text" placeholder="Digite seu salário" id="salario" onclick="Limpar()">
+        <input type="button" value="Salvar" onclick="Salvar()">
+        <input type="button" value="Remover" onclick="removerS()">
+    </section>
+    <section class="box">
+        <h3>Cadastro despesas</h3>
+        <input type="date" id="data">
+        <input type="text" placeholder="Nome da despesa" id="nome">
+        <input type="text" placeholder="Valor da despesa" id="valor">
+        <input type="button" value="Adicionar despesa" onclick="AdicionarDespesa()">
+        <input type="button" value="Remover" onclick="remover()">
+    </section>
+
+    <section class="box">
+        <h3>Listagem de despesas</h3>
+        <ul id="mostraLista"></ul>
+    </section>
+
+    <section class="box">
+        <h3>Resumo</h3>
+        <ul id="resumo"></ul>
+    </section>
+    <script type="text/javascript" src="Js/cp.js"></script>
 </body>
 
 </html>

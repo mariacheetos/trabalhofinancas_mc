@@ -1,82 +1,84 @@
-document.getElementById("formsalario").addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    var salario = Number(document.getElementById("salario").value);
-    localStorage.setItem("salario", salario);
-
-
-    alert("Salário salvo com sucesso!");
-    exibir_despesas();
-});
-
-
-document.getElementById("formdespesa").addEventListener("submit", function (event) {
-    event.preventDefault();
-
-
-    var nome = document.getElementById("nome").value;
-    var data = document.getElementById("data").value;
-    var valor = Number(document.getElementById("valor").value);
-
-
-    var despesa = { nome, data, valor };
-
-
-    var lista_despesas = JSON.parse(localStorage.getItem("relacaodespesas")) || [];
-    lista_despesas.push(despesa);
-
-
-    localStorage.setItem("relacaodespesas", JSON.stringify(lista_despesas));
-
-
-    document.getElementById("formdespesa").reset();
-    exibir_despesas();
-});
-
-
-function exibir_despesas() {
-    var lista_despesas = JSON.parse(localStorage.getItem("relacaodespesas")) || [];
-    var salario = Number(localStorage.getItem("salario") || 0);
-    var output = document.getElementById("output");
-
-
-    output.innerHTML = "";
-    let salarioLi = document.createElement("li");
-    salarioLi.style.fontWeight = "bold";
-    salarioLi.textContent = "SALÁRIO ATUAL: R$ " + salario;
-    output.appendChild(salarioLi);
-
-
-    if (lista_despesas.length === 0) {
-        output.innerHTML += "<li>Nenhuma despesa cadastrada.</li>";
-        return;
-    }
-
-
-    let totalDespesas = 0;
-
-
-    lista_despesas.forEach(function (item) {
-        let li = document.createElement("li");
-        li.textContent = `Nome: ${item.nome} | Data: ${item.data} | Valor: R$ ${item.valor}`;
-        output.appendChild(li);
-        totalDespesas += item.valor;
-    });
-
-
-    let resumo = document.createElement("li");
-    resumo.style.fontWeight = "bold";
-    resumo.style.marginTop = "10px";
-    resumo.textContent =
-        `TOTAL DESPESAS: R$ ${totalDespesas} | SALDO FINAL: R$ ${salario - totalDespesas}`;
-    output.appendChild(resumo);
+window.onload = function () {
+    mostrarDespesas();
+    exibirResumo();
 }
 
+function Salvar() {
+    var salario = Number(document.getElementById("salario").value)
+    if (isNaN(salario) || salario == 0) {
+        alert("Digite um valor válido.")
+        return
+    }
 
-document.getElementById("limpar").addEventListener("click", function () {
-    localStorage.clear();
-    exibir_despesas();
-});
+    var salarioAtual = Number(localStorage.getItem("salario")) || 0
+    var salarioSomado = salarioAtual + salario
 
+    localStorage.setItem("salario", salarioSomado)
+    exibirResumo()
+    alert("Salário salvo!")
+}
+function removerS() {
+    localStorage.removeItem("salario")
+    mostrarDespesas()
+    exibirResumo()
+    alert("Salário Removido!")
+}
 
-window.onload = exibir_despesas;
+function Limpar() {
+    var limpar = document.getElementById("salario")
+    limpar.value = ''
+}
+
+function AdicionarDespesa() {
+    var data = document.getElementById("data").value
+    var nome = document.getElementById("nome").value
+    var valor = Number(document.getElementById("valor").value)
+    if (data == "" || nome == "" || isNaN(valor)) {
+        alert("Preencha todos os campos!")
+        return
+    }
+    var despesa = {
+        data: data,
+        nome: nome,
+        valor: valor
+    };
+    var lista = JSON.parse(localStorage.getItem("despesas")) || []
+    lista.push(despesa)
+    localStorage.setItem("despesas", JSON.stringify(lista))
+    mostrarDespesas()
+    exibirResumo()
+    document.getElementById("data").value = ""
+    document.getElementById("nome").value = ""
+    document.getElementById("valor").value = ""
+}
+function remover() {
+    localStorage.removeItem("despesas")
+    mostrarDespesas()
+    exibirResumo()
+    alert("Todas as despesas foram removidas!")
+}
+function mostrarDespesas() {
+    var lista = JSON.parse(localStorage.getItem("despesas")) || []
+    var ul = document.getElementById("mostraLista")
+    ul.innerHTML = ""
+    for (var i = 0; i < lista.length; i++) {
+        var li = document.createElement("li")
+        li.innerText = lista[i].data + " | " + lista[i].nome + " | R$ " + lista[i].valor
+        ul.appendChild(li)
+    }
+}
+
+function exibirResumo() {
+    var salario = parseFloat(localStorage.getItem("salario") || 0)
+    var lista = JSON.parse(localStorage.getItem("despesas")) || []
+
+    var total = 0
+    for (var i = 0; i < lista.length; i++) {
+        total = total + lista[i].valor
+    }
+    var saldo = salario - total
+    document.getElementById("resumo").innerText =
+        "Salário: R$ " + salario +
+        " | Total de despesas: R$ " + total +
+        " | Saldo final: R$ " + saldo
+}
